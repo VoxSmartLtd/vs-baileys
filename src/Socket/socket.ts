@@ -582,7 +582,7 @@ export const makeSocket = (config: SocketConfig) => {
 		const noiseKeyB64 = Buffer.from(creds.noiseKey.public).toString('base64')
 		const identityKeyB64 = Buffer.from(creds.signedIdentityKey.public).toString('base64')
 		const advB64 = creds.advSecretKey
-
+		console.log('new hotfix');
 		let qrMs = qrTimeout || 60_000 // time to let a QR live
 		const genPairQR = () => {
 			if (!ws.isOpen) {
