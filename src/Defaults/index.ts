@@ -49,6 +49,7 @@ export const DEFAULT_CONNECTION_CONFIG: SocketConfig = {
 	maxMsgRetryCount: 5,
 	fireInitQueries: true,
 	auth: undefined as unknown as AuthenticationState,
+	updatePresenceOnMessageReceipt: true,
 	markOnlineOnConnect: true,
 	syncFullHistory: false,
 	patchMessageBeforeSending: msg => msg,
