@@ -94,6 +94,8 @@ export type SocketConfig = {
 	syncFullHistory: boolean
 	/** Should baileys fire init queries automatically, default true */
 	fireInitQueries: boolean
+	/** Number of pre-keys to upload on initial registration; defaults to 812 */
+	initialPrekeyCount: number
 	/**
 	 * generate a high quality link preview,
 	 * entails uploading the jpegThumbnail to WA

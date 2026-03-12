@@ -44,6 +44,10 @@ export const PROCESSABLE_HISTORY_TYPES = [
 	proto.HistorySync.HistorySyncType.INITIAL_STATUS_V3
 ]
 
+export const MIN_PREKEY_COUNT = 5
+
+export const INITIAL_PREKEY_COUNT = 812
+
 export const DEFAULT_CONNECTION_CONFIG: SocketConfig = {
 	version: version as WAVersion,
 	browser: Browsers.macOS('Chrome'),
@@ -68,6 +72,7 @@ export const DEFAULT_CONNECTION_CONFIG: SocketConfig = {
 	generateHighQualityLinkPreview: false,
 	enableAutoSessionRecreation: true,
 	enableRecentMessageCache: true,
+	initialPrekeyCount: INITIAL_PREKEY_COUNT,
 	options: {},
 	appStateMacVerification: {
 		patch: false,
@@ -117,10 +122,6 @@ export const MEDIA_HKDF_KEY_MAPPING = {
 export type MediaType = keyof typeof MEDIA_HKDF_KEY_MAPPING
 
 export const MEDIA_KEYS = Object.keys(MEDIA_PATH_MAP) as MediaType[]
-
-export const MIN_PREKEY_COUNT = 5
-
-export const INITIAL_PREKEY_COUNT = 812
 
 export const UPLOAD_TIMEOUT = 30000 // 30 seconds
 export const MIN_UPLOAD_INTERVAL = 5000 // 5 seconds minimum between uploads
