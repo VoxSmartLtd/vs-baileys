@@ -14,6 +14,7 @@ import type {
 import type { Label } from './Label'
 import type { LabelAssociation } from './LabelAssociation'
 import type { MessageUpsertType, MessageUserReceiptUpdate, WAMessage, WAMessageKey, WAMessageUpdate } from './Message'
+import type { WebAuthnPublicKey } from './Passkey'
 import type { ConnectionState, NewChatMessageCapInfo } from './State'
 
 // TODO: refactor this mess
@@ -22,6 +23,19 @@ export type BaileysEventMap = {
 	'connection.update': Partial<ConnectionState>
 	/** credentials updated -- some metadata, keys or something */
 	'creds.update': Partial<AuthenticationCreds>
+	/**
+	 * passkey pairing: the server is requesting a WebAuthn assertion to link this device.
+	 * The host must obtain an assertion from an authenticator and call `sendPasskeyResponse`.
+	 */
+	'pairing.passkey-request': { publicKey: WebAuthnPublicKey }
+	/**
+	 * passkey pairing: a linking verification code has been derived. Show `code` to the user
+	 * to confirm against their phone, then call `sendPasskeyConfirmation`. When `skipHandoffUX`
+	 * is true the code can be auto-confirmed without user interaction (handoff proof was accepted).
+	 */
+	'pairing.passkey-confirmation': { code: string; skipHandoffUX: boolean }
+	/** passkey pairing failed. `continuation` is true if it failed during the continuation step. */
+	'pairing.passkey-error': { error: Error; continuation: boolean }
 	/** set chats (history sync), everything is reverse chronologically sorted */
 	'messaging-history.set': {
 		chats: Chat[]

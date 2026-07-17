@@ -5,6 +5,8 @@
 */.DS_Store
 auth_info*.json
 baileys_auth_info*
+passkey_capture_auth*
+passkey-capture-logs*
 baileys_store*.json
 browser-messages.json
 browser-token.json

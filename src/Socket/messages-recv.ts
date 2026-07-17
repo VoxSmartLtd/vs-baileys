@@ -87,6 +87,7 @@ import {
 } from '../WABinary'
 import { extractGroupMetadata } from './groups'
 import { makeMessagesSocket } from './messages-send'
+import { makePasskeyPairing } from './pair-passkey'
 
 type MexGqlData = Record<string, unknown>
 
@@ -139,6 +140,13 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 	} = sock
 
 	const getLIDForPN = signalRepository.lidMapping.getLIDForPN.bind(signalRepository.lidMapping)
+
+	const {
+		handlePasskeyNotification,
+		handlePasskeyContinuationNotification,
+		sendPasskeyResponse,
+		sendPasskeyConfirmation
+	} = makePasskeyPairing({ authState, ev, query, browser: config.browser, logger })
 
 	/** this mutex ensures that each retryRequest will wait for the previous one to finish */
 	const retryMutex = makeMutex()
@@ -1196,6 +1204,12 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 				authState.creds.registered = true
 				ev.emit('creds.update', authState.creds)
 				break
+			case 'passkey_prologue_request':
+				await handlePasskeyNotification(node)
+				break
+			case 'crsc_continuation':
+				await handlePasskeyContinuationNotification(node)
+				break
 			case 'privacy_token':
 				await handlePrivacyTokenNotification(node)
 				break
@@ -2169,6 +2183,8 @@ export const makeMessagesRecvSocket = (config: SocketConfig) => {
 		rejectCall,
 		fetchMessageHistory,
 		requestPlaceholderResend,
-		messageRetryManager
+		messageRetryManager,
+		sendPasskeyResponse,
+		sendPasskeyConfirmation
 	}
 }
